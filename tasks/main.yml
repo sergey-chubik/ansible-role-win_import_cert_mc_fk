@@ -1,0 +1,31 @@
+---
+# tasks file for win_import_cert_mc_fk
+
+- name: win_import_cert_mc_fk | Copy a single file in directory temp
+  win_copy:
+    src: "{{ item }}"
+    dest: "{{ win_import_cert_mc_fk_copy_path }}"
+  with_fileglob: "{{ win_import_cert_mc_fk_files }}/*.cer"
+
+- name: win_import_cert_mc_fk | Import a cert is LocalMachine/Root store
+  win_certificate_store:
+    path: "{{ win_import_cert_mc_fk_copy_path }}{{ item }}"
+    state: present
+    store_location: LocalMachine
+    file_type: pem
+    store_name: Root
+  loop: "{{ win_import_cert_mc_fk_root }}"
+
+- name: win_import_cert_mc_fk | Import a cert is LocalMachine/CertificateAuthority store
+  win_certificate_store:
+    path: "{{ win_import_cert_mc_fk_copy_path }}{{ item }}"
+    state: present
+    store_location: LocalMachine
+    file_type: pem
+    store_name: CertificateAuthority
+  loop: "{{ win_import_cert_mc_fk_ca }}"
+
+- name: win_import_cert_mc_fk | Remove directory temp
+  win_file:
+    path: "{{ win_import_cert_mc_fk_copy_path }}"
+    state: absent

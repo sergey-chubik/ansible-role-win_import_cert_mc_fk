@@ -1,0 +1,13 @@
+---
+# defaults file for win_import_cert_mc_fk
+win_import_cert_mc_fk_files: "{{ role_path }}/files"
+win_import_cert_mc_fk_copy_path: '%Temp%\cert\'
+win_import_cert_mc_fk_root:
+  - guts_2012.cer
+  - guts_2001.cer
+  - CAMinfin.cer
+win_import_cert_mc_fk_ca:
+  - fk_2001.cer
+  - fk_2012.cer
+  - fk_2020.cer
+  - fk_2021.cer
